@@ -2,6 +2,7 @@ const express = require('express')
 const next = require('next')
 const crawler = require('./utils/crawler')
 
+
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
@@ -11,10 +12,11 @@ app.prepare().then(() => {
   
     server.get('/', (req, res) => {
       crawler.getVerificationsFromWebsite()
+      //.then( verifications => Promise.all(crawler.getVerificationsWithPublicKey(verifications)) )
       .then( verifications => {
         app.render(req, res, '/', { 
           verifications, 
-          originURL: crawler.ARAGON_FORUM_URL 
+          originURL: crawler.ARAGON_FORUM_URL
         })
       })
     })

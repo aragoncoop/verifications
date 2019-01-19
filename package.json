@@ -10,6 +10,7 @@
     "@aragon/ui": "^0.28.0",
     "express": "^4.16.4",
     "isomorphic-unfetch": "^3.0.0",
+    "keybase-verify": "^2.0.0",
     "next": "^7.0.2",
     "nightmare": "^3.0.1",
     "react": "^16.7.0",
