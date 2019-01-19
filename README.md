@@ -34,3 +34,4 @@ now
 * [X] Make it less of an eye-sore.
 * [ ] Only obtained posts that contained armored PGP signatures
 * [ ] Identify usernames from keybase compared from forum chat.
+* [ ] Replace nightmare for something that doesn’t syphons out memory.
