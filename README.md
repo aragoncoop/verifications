@@ -7,26 +7,27 @@ how many people had verified themselves.
 
 ## Tech stack
 
-* ['create-next-app'](https://github.com/segmentio/create-next-app) 
+* [create-next-app](https://github.com/segmentio/create-next-app) 
 * [yarn](https://yarnpkg.com/lang/en/docs/cli/create/)
 * [styled components](https://www.styled-components.com/)
 * [nightmare](https://github.com/segmentio/nightmare)
 * [aragon-ui](https://github.com/aragon/aragon-ui)
 
-### Test locally
+## Run locally
 
 ```bash
 yarn
 yarn dev
 ```
 
+## Deploy
 ```bash
 now
 ```
 
-### ToDo
+## ToDo
 
-* [] Integrate `keybase-verify` to actually confirm each individual PGP signature.
-* [] Implement scrolling into Nightmare to fetch all posts or use a more sensible API
-* [] Ignore repeated or poorly parsed posts.
-* [] Make it less of an eye-sore.
+* [ ] Integrate `keybase-verify` to actually confirm each individual PGP signature.
+* [ ] Implement scrolling into Nightmare to fetch all posts or use a more sensible API
+* [ ] Ignore repeated or poorly parsed posts.
+* [ ] Make it less of an eye-sore.
