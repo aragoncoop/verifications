@@ -12,6 +12,7 @@ how many people had verified themselves.
 * [styled components](https://www.styled-components.com/)
 * [nightmare](https://github.com/segmentio/nightmare)
 * [aragon-ui](https://github.com/aragon/aragon-ui)
+* [keybase-verify](https://github.com/jjperezaguinaga/keybase-verify)
 
 ## Run locally
 
@@ -27,7 +28,9 @@ now
 
 ## ToDo
 
-* [ ] Integrate `keybase-verify` to actually confirm each individual PGP signature.
+* [X] -Integrate `keybase-verify` to actually confirm each individual PGP signature.-
 * [ ] Implement scrolling into Nightmare to fetch all posts or use a more sensible API
 * [ ] Ignore repeated or poorly parsed posts.
-* [ ] Make it less of an eye-sore.
+* [X] Make it less of an eye-sore.
+* [ ] Only obtained posts that contained armored PGP signatures
+* [ ] Identify usernames from keybase compared from forum chat.
