@@ -95,8 +95,8 @@ class Index extends React.Component {
     try { 
       const isValid = await verify(publicKey, signedMessage);
       return isValid ? 
-        { content: 'The signature is valid', success: true } : 
-        { content: 'The signature is invalid', success: false }
+        { content: `Valid signature by Keybase user @${username}`, success: true } : 
+        { content: `Invalid signature. Not signed by @${username}`, success: false }
     } catch(err) {
       return { content: err.message, success: false }
     }
