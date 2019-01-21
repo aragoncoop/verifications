@@ -1,5 +1,6 @@
 const express = require('express')
 const next = require('next')
+const api = require('./utils/api')
 const crawler = require('./utils/crawler')
 
 
@@ -11,24 +12,20 @@ app.prepare().then(() => {
     const server = express()
   
     server.get('/', (req, res) => {
-      crawler.getVerificationsFromWebsite()
-      .then( verifications => {
-        app.render(req, res, '/', { 
-          verifications, 
-          originURL: crawler.ARAGON_FORUM_URL
-        })
+      const verifications = api.getVerifications()
+      app.render(req, res, '/', { 
+        verifications, 
+        originURL: crawler.ARAGON_FORUM_URL
       })
     })
 
     // Client Side Rendering
     server.get('/api/verifications', (req, res) => {
-      crawler.getVerificationsFromWebsite()
-      .then( verifications => {
-        res.json({ 
-          verifications, 
-          originURL: crawler.ARAGON_FORUM_URL 
-        })
-      }) 
+      const verifications = api.getVerifications()
+      res.json({ 
+        verifications, 
+        originURL: crawler.ARAGON_FORUM_URL 
+      })
     })
       
     server.get('*', (req, res) => {

@@ -5,6 +5,7 @@
     "dev": "node server.js",
     "build": "next build",
     "now-start": "NODE_ENV=production node server.js",
+    "scrape": "mkdir -p verifications && node scripts/scrape_forum.js",
     "start": "npm run build && NODE_ENV=production node server.js"
   },
   "dependencies": {
