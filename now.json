@@ -1,0 +1,14 @@
+{
+    "name": "aragon-verifications",
+    "alias": "aragon-verifications",
+    "files": [
+        "pages",
+        "public",
+        "utils",
+        "verifications",
+        ".babelrc",
+        "package.json",
+        "server.js",
+        "yarn.lock"
+    ]
+}
