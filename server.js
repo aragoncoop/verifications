@@ -12,7 +12,6 @@ app.prepare().then(() => {
   
     server.get('/', (req, res) => {
       crawler.getVerificationsFromWebsite()
-      //.then( verifications => Promise.all(crawler.getVerificationsWithPublicKey(verifications)) )
       .then( verifications => {
         app.render(req, res, '/', { 
           verifications, 

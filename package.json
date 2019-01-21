@@ -13,7 +13,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "keybase-verify": "^2.0.0",
     "next": "^7.0.2",
-    "nightmare": "^3.0.1",
+    "puppeteer": "^1.11.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "styled-components": "^4.0.0"

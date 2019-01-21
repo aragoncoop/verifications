@@ -1,45 +1,28 @@
-const Nightmare = require('nightmare')
+const puppeteer = require('puppeteer');
 
 function Crawler() {
-    this.ARAGON_FORUM_URL = 'https://forum.aragon.org'
-    this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD = `${this.ARAGON_FORUM_URL}/t/aragon-cooperative-membership-thread/463`
+  this.ARAGON_FORUM_URL = 'https://forum.aragon.org'
+  this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD = `${this.ARAGON_FORUM_URL}/t/aragon-cooperative-membership-thread/463`
+  
+  this.getVerificationsFromWebsite = async () => {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
     
-    this.nightmare = Nightmare({ show: false })
-
-    this.getPublicKeyFromKeybase = (username) => {
-        return this.nightmare
-          .goto(this.KEYBASE_PUBLIC_KEYS_URL(username))
-          .evaluate(
-            selector => {
-              const publicKey = (key = key && key.textContent)(document.querySelector(selector))
-              return { publicKey }
-            }, 
-            'body pre'
-          )
-    }
-
-    this.getVerificationsWithPublicKey = function(verifications) {
-      return verifications.map( verification => 
-        this.getPublicKeyFromKeybase(verification.username)
-        .then( publicKey => Object.assign({}, verification, publicKey ))
+    await page.setViewport({ width: 1920, height: 926 });
+    await page.goto(this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD);
+    
+    return page
+      .evaluate(
+        () => {
+          const posts = document.querySelectorAll('.topic-post')
+          return Array.prototype.map.call(posts, (post => {
+            const avatar = (img => img && img.getAttribute('src'))(post.querySelector('.topic-avatar img'))
+            const body = (code => code && code.textContent)(post.querySelector('.topic-body code'))
+            return { avatar, body }
+          })).filter( verification => !!verification.body )
+        }, 
       )
-    }
-
-    this.getVerificationsFromWebsite = () => {
-        return this.nightmare
-          .goto(this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD)
-          .evaluate(
-            selector => {
-              const posts = document.querySelectorAll(selector)
-              return Array.prototype.map.call(posts, (post => {
-                const avatar = (img => img && img.getAttribute('src'))(post.querySelector('.topic-avatar img'))
-                const body = (code => code && code.textContent)(post.querySelector('.topic-body code'))
-                return { avatar, body }
-              })).filter( verification => !!verification.body )
-            }, 
-            '.topic-post'
-          )
-      }
+  }
 }
 
 module.exports = new Crawler();
