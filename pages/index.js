@@ -83,27 +83,28 @@ class Index extends React.Component {
         AragonApp: module.AragonApp,
         Card: module.Card,
         Text: module.Text,
-        Button: module.Button
+        Button: module.Button,
+        SafeLink: module.SafeLink
       }))
   }
 
   // We assume username is in the form @username
-  retrievePublicKeyFromKeybase = async (username) => username && await fetch(`https://keybase.io/${username.substring(1)}/pgp_keys.asc`).then( res => res.text() )
+  retrievePublicKeyFromKeybase = async (username) => username && await fetch(`https://keybase.io/${username}/pgp_keys.asc`).then( res => res.text() )
   retrieveUsernameFromBody = (verification) => (match => match && match[0])(verification.body ? verification.body.match(/\B@\w+/g) : '')
   verifySignatureWithPublicKey = async (username, signedMessage) => {
     const publicKey = await this.retrievePublicKeyFromKeybase(username)
     try { 
       const isValid = await verify(publicKey, signedMessage);
       return isValid ? 
-        { content: `Valid signature by Keybase user @${username}`, success: true } : 
-        { content: `Invalid signature. Not signed by @${username}`, success: false }
+        { content: `Valid signature by Keybase user @${username}`, success: true, updated: true } : 
+        { content: `Invalid signature. Not signed by @${username}`, success: false, updated: true }
     } catch(err) {
       return { content: err.message, success: false }
     }
   }
 
   render() {
-    const { AragonApp, Card, Text, Button } = this.state; 
+    const { AragonApp, Card, Button, SafeLink } = this.state; 
     const { verifications, originURL } = this.props;
     const StyledAragonApp = AragonApp && styleAragonApp(AragonApp)
     const StyledCard = Card && styleCard(Card)
@@ -117,11 +118,12 @@ class Index extends React.Component {
               <Title>Aragon Verifications</Title>
               { 
                 verifications.map( verification => {
-                    const username = this.retrieveUsernameFromBody(verification)
+                    const atUsername = this.retrieveUsernameFromBody(verification)
+                    const username = atUsername && atUsername.substring(1)
                     return(
                       verification.body && username && <StyledCard key={ username }>
                         <img src={`${originURL}${verification.avatar}`}/>
-                        <h2>{ username }</h2>
+                        <h2><SafeLink target="_blank" href={`https://keybase.io/${username}`}>{username}</SafeLink></h2>
                         <StyledButton mode="outline" onClick={() => alert(verification.body)}>See signature</StyledButton>
                         <DynamicButton
                            Button={Button}

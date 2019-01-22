@@ -3,15 +3,12 @@ const puppeteer = require('puppeteer');
 function Crawler() {
   this.ARAGON_FORUM_URL = 'https://forum.aragon.org'
   this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD = `${this.ARAGON_FORUM_URL}/t/aragon-cooperative-membership-thread/463`
-  
-  this.getVerificationsFromWebsite = async () => {
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
-    
-    await page.setViewport({ width: 1920, height: 926 });
-    await page.goto(this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD);
-    
-    return page
+
+  this.obtainVerificationsFromPosts = async (page) => {
+    const url = this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD + (page ? `/${page}` : '');
+    await this.page.goto(url);
+    console.log(`Evaluating page ${url}.`)
+    return this.page
       .evaluate(
         () => {
           const posts = document.querySelectorAll('.topic-post')
@@ -22,6 +19,26 @@ function Crawler() {
           })).filter( verification => !!verification.body )
         }, 
       )
+  }
+  
+  this.getVerificationsFromWebsite = async () => {
+    this.browser = await puppeteer.launch({ headless: true });
+    this.page = await this.browser.newPage();
+    
+    await this.page.setViewport({ width: 1920, height: 926 });
+    
+    let currentPosts = 0, currentVerifications, newPosts, allVerifications = [];
+    do {
+      console.log('Obtaining verifications...');
+      currentVerifications = await this.obtainVerificationsFromPosts(currentPosts);
+      newPosts = currentVerifications.length;
+      console.log(`Obtained ${newPosts} verifications.`)
+      currentPosts += newPosts;
+      allVerifications = allVerifications.concat(currentVerifications)
+    }
+    while (newPosts >= 18); 
+    console.log(`Obtained a total of ${allVerifications.length} verifications.`)
+    return allVerifications;
   }
 }
 
