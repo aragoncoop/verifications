@@ -2,6 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import fetch from 'isomorphic-unfetch'
 
+const verifications = require('../verifications/verifications.json');
+const constants = require('../utils/constants');
+
 const verify = require('keybase-verify')
 
 const Title = styled.h1`
@@ -52,7 +55,7 @@ class DynamicButton extends React.Component {
     const { Button, triggerHandler } = this.props;
     const { message, mode, emphasis } = this.state;
     return( 
-      <Button mode={mode} emphasis={emphasis}
+      <Button mode={mode} emphasis={emphasis} style={{ whiteSpace: 'pre-wrap' }}
         onClick={() => {
           this.updateMessage()
           triggerHandler(this.completedHandler)
@@ -66,12 +69,7 @@ class DynamicButton extends React.Component {
 
 class Index extends React.Component {
   static async getInitialProps ({ req, query }) {
-    const isServer = !!req
-    return isServer ? 
-      { verifications: query.verifications, originURL: query.originURL } :
-      { verifications: await fetch('/api/verifications', {
-        headers: { Accept: 'application/json' }
-      }).json(), originURL: query.originURL }
+    return { verifications: verifications, originURL: constants.ARAGON_FORUM_URL }
   }
   constructor(props) {
     super(props);

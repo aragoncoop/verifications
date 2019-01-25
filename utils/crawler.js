@@ -1,11 +1,9 @@
 const puppeteer = require('puppeteer');
+const constants = require('./constants');
 
 function Crawler() {
-  this.ARAGON_FORUM_URL = 'https://forum.aragon.org'
-  this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD = `${this.ARAGON_FORUM_URL}/t/aragon-cooperative-membership-thread/463`
-
   this.obtainVerificationsFromPosts = async (page) => {
-    const url = this.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD + (page ? `/${page}` : '');
+    const url = constants.ARAGON_COOPERATIVE_MEMBERSHIP_THREAD + (page ? `/${page}` : '');
     await this.page.goto(url);
     console.log(`Evaluating page ${url}.`)
     return this.page
@@ -36,7 +34,7 @@ function Crawler() {
       currentPosts += newPosts;
       allVerifications = allVerifications.concat(currentVerifications)
     }
-    while (newPosts >= 18); 
+    while (newPosts >= 17); 
     console.log(`Obtained a total of ${allVerifications.length} verifications.`)
     return allVerifications;
   }

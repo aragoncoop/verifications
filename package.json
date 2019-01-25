@@ -6,7 +6,8 @@
     "build": "next build",
     "now-start": "NODE_ENV=production node server.js",
     "scrape": "mkdir -p verifications && node scripts/scrape_forum.js",
-    "start": "npm run build && NODE_ENV=production node server.js"
+    "start": "npm run build && NODE_ENV=production node server.js",
+    "export": "next export"
   },
   "dependencies": {
     "@aragon/ui": "^0.28.0",

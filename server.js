@@ -18,15 +18,6 @@ app.prepare().then(() => {
         originURL: crawler.ARAGON_FORUM_URL
       })
     })
-
-    // Client Side Rendering
-    server.get('/api/verifications', (req, res) => {
-      const verifications = api.getVerifications()
-      res.json({ 
-        verifications, 
-        originURL: crawler.ARAGON_FORUM_URL 
-      })
-    })
       
     server.get('*', (req, res) => {
       return handle(req, res)
