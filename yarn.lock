@@ -4136,6 +4136,11 @@ purepack@>=1.0.4:
   resolved "https://registry.yarnpkg.com/purepack/-/purepack-1.0.4.tgz#086282fd939285f58664ba9a9bba31cdb165ccd2"
   integrity sha1-CGKC/ZOShfWGZLqam7oxzbFlzNI=
 
+q@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+  integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
 qs@6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"

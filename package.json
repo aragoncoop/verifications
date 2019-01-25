@@ -16,6 +16,7 @@
     "keybase-verify": "^2.0.0",
     "next": "^7.0.2",
     "puppeteer": "^1.11.0",
+    "q": "^1.5.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "styled-components": "^4.0.0"

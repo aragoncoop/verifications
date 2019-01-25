@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import fetch from 'isomorphic-unfetch'
+import Q from 'q'
 
 const verifications = require('../verifications/verifications.json');
 const constants = require('../utils/constants');
@@ -87,15 +88,22 @@ class Index extends React.Component {
   }
 
   // We assume username is in the form @username
-  retrievePublicKeyFromKeybase = async (username) => username && await fetch(`https://keybase.io/${username}/pgp_keys.asc`).then( res => res.text() )
+  retrievePublicKeysFromKeybase = async (username) => {
+    const response = username && await fetch(`https://keybase.io/_/api/1.0/user/lookup.json?username=${username}`).then( res => res.json() );
+    if (!response || !response.them || !response.them.public_keys) { throw new Error(`No keys found for user ${username}`) }
+    return response && response.them && response.them.public_keys.pgp_public_keys;
+  }
   retrieveUsernameFromBody = (verification) => (match => match && match[0])(verification.body ? verification.body.match(/\B@\w+/g) : '')
   verifySignatureWithPublicKey = async (username, signedMessage) => {
-    const publicKey = await this.retrievePublicKeyFromKeybase(username)
-    try { 
-      const isValid = await verify(publicKey, signedMessage);
+    try {
+      const publicKeys = await this.retrievePublicKeysFromKeybase(username)
+      const resolvedVerifications = await Q.allSettled(publicKeys.map((async (publicKey) => {
+        try { return await verify(publicKey, signedMessage) } catch (err) { return false; }
+      })));
+      const isValid = resolvedVerifications.some( verification => verification.value )
       return isValid ? 
         { content: `Valid signature by Keybase user @${username}`, success: true, updated: true } : 
-        { content: `Invalid signature. Not signed by @${username}`, success: false, updated: true }
+        { content: `Invalid signature. Not signed by @${username} or missing signature`, success: false, updated: true }
     } catch(err) {
       return { content: err.message, success: false }
     }

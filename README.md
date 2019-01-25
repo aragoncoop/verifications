@@ -30,10 +30,12 @@ now
 
 * [X] ~Integrate `keybase-verify` to actually confirm each individual PGP signature.~
 * [X] ~Implement scrolling into ~Nightmare~ Puppeteer to fetch all posts or use a more sensible API~
-* [ ] Ignore repeated or poorly parsed posts.
+* [X] ~Filter repeated posts.~
+* [ ] Ignore poorly parsed posts.
 * [X] ~Make it less of an eye-sore.~
 * [ ] Only obtained posts that contained armored PGP signatures
 * [ ] Identify usernames from keybase compared from forum chat.
 * [X] ~Replace nightmare for something that doesn’t syphons out memory.~
 * [X] ~Moved server side logic for scrapping into a script-run-once logic since poor-man-servers suck for scrappping.~
-* [ ] Figure it out how to verify signature of non-PGP armored signatures.
+* [X] ~Figure it out how to verify signature of non-PGP armored signatures.~
+* [X] ~Made button not overflow.~
